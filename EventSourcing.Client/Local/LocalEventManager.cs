@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Kwetterprise.EventSourcing.Client.Local
 {
@@ -14,7 +13,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
     {
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
 
-        private TaskCompletionSource<bool> tcs;
+        private TaskCompletionSource<bool>? tcs;
         private List<Topic> topics = new List<Topic>();
 
         public LocalEventManager()
@@ -24,7 +23,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
 
         public Task StartListening(List<Topic> topics)
         {
-            if (!this.tcs.Task.IsCompleted)
+            if (this.tcs != null && !this.tcs.Task.IsCompleted)
             {
                 throw new InvalidOperationException("Already listening.");
             }
@@ -38,17 +37,18 @@ namespace Kwetterprise.EventSourcing.Client.Local
 
         public void Stop()
         {
-            if (this.tcs.Task.IsCompleted)
+            if (this.tcs == null || this.tcs!.Task.IsCompleted)
             {
                 throw new InvalidOperationException("Not listening.");
             }
 
             this.tcs.SetResult(true);
+            this.tcs = null;
         }
 
         public Task Publish(EventBase message, Topic topic)
         {
-            if (this.topics.Contains(topic))
+            if (this.tcs != null && this.topics.Contains(topic))
             {
                 Task.Run(() => this.subject.Publish(message));
             }
@@ -63,7 +63,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
 
         public void Dispose()
         {
-            if (!this.tcs.Task.IsCompleted)
+            if (this.tcs != null && !this.tcs!.Task.IsCompleted)
             {
                 this.Stop();
             }

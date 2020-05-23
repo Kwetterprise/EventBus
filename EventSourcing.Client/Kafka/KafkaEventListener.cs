@@ -21,24 +21,22 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
     public sealed class KafkaEventListener : IEventListener
     {
         private readonly ILogger<KafkaEventListener> logger;
+        private ConsumerConfig config;
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
-        private readonly IConsumer<Ignore, string> consumer;
+        private IConsumer<Ignore, string> consumer;
 
         private CancellationTokenSource token = new CancellationTokenSource();
         private Task? task;
 
-        /// <inheritdoc />
         public KafkaEventListener(ILogger<KafkaEventListener> logger, KafkaConsumerConfiguration configuration)
         {
             this.logger = logger;
-            var config = new ConsumerConfig
+            this.config = new ConsumerConfig
             {
                 BootstrapServers = configuration.Servers,
                 GroupId = configuration.GroupId,
                 AutoOffsetReset = configuration.Offset,
             };
-
-            this.consumer = new ConsumerBuilder<Ignore, string>(config).Build();
         }
 
         public Task StartListening(List<Topic> topics)
@@ -50,6 +48,7 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
 
             this.token = new CancellationTokenSource();
 
+            this.consumer = new ConsumerBuilder<Ignore, string>(this.config).Build();
             this.consumer.Subscribe(topics.Select(x => x.ToString()));
 
             this.task = Task.Run(
@@ -61,12 +60,18 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
                         {
                             this.DoWork();
                         }
+                        catch (TaskCanceledException)
+                        {
+                            // ignore
+                        }
                         catch (Exception e)
                         {
                             this.subject.OnError(e);
                             return;
                         }
                     }
+
+                    this.consumer.Close();
 
                     this.subject.OnCompleted();
                 },
