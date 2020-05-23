@@ -1,4 +1,4 @@
-﻿namespace Kwetterprise.EventSourcing.Models.Event.Account
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
     public sealed class AccountDeletedEvent : EventBase
     {

@@ -1,4 +1,4 @@
-﻿namespace Kwetterprise.EventSourcing.Models.DataTransfer
+﻿namespace Kwetterprise.EventSourcing.Client.Models.DataTransfer
 {
     public enum AccountRole
     {

@@ -1,6 +1,6 @@
-﻿namespace Kwetterprise.EventSourcing.Models.Event.Account
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
-    using Kwetterprise.EventSourcing.Models.DataTransfer;
+    using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
 
     public sealed class AccountUpdatedEvent : EventBase
     {

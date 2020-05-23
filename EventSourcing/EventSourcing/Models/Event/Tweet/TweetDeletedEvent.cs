@@ -1,4 +1,4 @@
-﻿namespace Kwetterprise.EventSourcing.Models.Event.Tweet
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event.Tweet
 {
     using System;
 

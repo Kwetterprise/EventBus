@@ -4,17 +4,16 @@
 //  </copyright>
 // ---------------------------------------------------------------------------------------------------------------------
 
-namespace Kwetterprise.EventSourcing.Event
+namespace Kwetterprise.EventSourcing.Client.Event
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Subjects;
     using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
     using Confluent.Kafka;
-    using Kwetterprise.EventSourcing.Models.Event;
+    using Kwetterprise.EventSourcing.Client.Models.Event;
     using Microsoft.Extensions.Logging;
 
     public sealed class KafkaEventListener : IEventListener

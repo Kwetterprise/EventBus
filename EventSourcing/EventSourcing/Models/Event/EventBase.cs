@@ -1,7 +1,7 @@
-﻿namespace Kwetterprise.EventSourcing.Models.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event
 {
     using System;
-    using Kwetterprise.EventSourcing.Models.Event.Account;
+    using Kwetterprise.EventSourcing.Client.Models.Event.Account;
 
     public abstract class EventBase
     {

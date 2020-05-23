@@ -1,10 +1,10 @@
-﻿namespace Kwetterprise.EventSourcing.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Event
 {
     using System.Net;
     using System.Text.Json;
     using System.Threading.Tasks;
     using Confluent.Kafka;
-    using Kwetterprise.EventSourcing.Models.Event;
+    using Kwetterprise.EventSourcing.Client.Models.Event;
     using Microsoft.Extensions.Logging;
 
     public sealed class KafkaEventPublisher : IEventPublisher

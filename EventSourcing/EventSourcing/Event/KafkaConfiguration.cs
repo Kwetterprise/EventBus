@@ -1,8 +1,8 @@
-﻿namespace Kwetterprise.EventSourcing.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Event
 {
     using System.Collections.Generic;
     using Confluent.Kafka;
-    using Kwetterprise.EventSourcing.Models.Event;
+    using Kwetterprise.EventSourcing.Client.Models.Event;
 
     public class KafkaConfiguration
     {

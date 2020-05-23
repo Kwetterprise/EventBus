@@ -1,7 +1,7 @@
-﻿namespace Kwetterprise.EventSourcing.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Event
 {
     using System;
-    using Kwetterprise.EventSourcing.Models.Event;
+    using Kwetterprise.EventSourcing.Client.Models.Event;
 
     public interface IEventListener : IObservable<EventBase>, IDisposable
     {

@@ -1,10 +1,10 @@
-﻿namespace Kwetterprise.EventSourcing.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Event
 {
     using System;
     using System.Linq;
     using System.Text.Json;
     using System.Text.Json.Serialization;
-    using Kwetterprise.EventSourcing.Models.Event;
+    using Kwetterprise.EventSourcing.Client.Models.Event;
 
     internal sealed class KwetterpriseEventConverter : JsonConverter<EventBase>
     {

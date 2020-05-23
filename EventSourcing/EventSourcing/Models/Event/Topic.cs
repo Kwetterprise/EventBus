@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Kwetterprise.EventSourcing.Models.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event
 {
     public enum Topic
     {

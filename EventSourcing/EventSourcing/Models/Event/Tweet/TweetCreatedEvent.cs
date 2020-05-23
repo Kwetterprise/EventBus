@@ -1,6 +1,6 @@
-﻿namespace Kwetterprise.EventSourcing.Models.Event.Tweet
+﻿namespace Kwetterprise.EventSourcing.Client.Models.Event.Tweet
 {
-    using Kwetterprise.EventSourcing.Models.DataTransfer;
+    using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
 
     public sealed class TweetCreatedEvent : EventBase
     {
