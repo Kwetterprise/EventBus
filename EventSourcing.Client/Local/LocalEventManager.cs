@@ -50,7 +50,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
         {
             if (this.topics.Contains(topic))
             {
-                this.subject.Publish(message);
+                Task.Run(() => this.subject.Publish(message));
             }
 
             return Task.CompletedTask;
