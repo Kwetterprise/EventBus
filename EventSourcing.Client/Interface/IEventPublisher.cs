@@ -1,4 +1,4 @@
-﻿namespace Kwetterprise.EventSourcing.Client.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Interface
 {
     using System;
     using System.Threading.Tasks;

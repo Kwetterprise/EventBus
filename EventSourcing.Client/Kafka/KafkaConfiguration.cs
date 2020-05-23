@@ -1,4 +1,4 @@
-﻿namespace Kwetterprise.EventSourcing.Client.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Kafka
 {
     using System.Collections.Generic;
     using Confluent.Kafka;

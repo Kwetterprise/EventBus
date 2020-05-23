@@ -1,9 +1,10 @@
-﻿namespace Kwetterprise.EventSourcing.Client.Event
+﻿namespace Kwetterprise.EventSourcing.Client.Kafka
 {
     using System.Net;
     using System.Text.Json;
     using System.Threading.Tasks;
     using Confluent.Kafka;
+    using Kwetterprise.EventSourcing.Client.Interface;
     using Kwetterprise.EventSourcing.Client.Models.Event;
     using Microsoft.Extensions.Logging;
 
