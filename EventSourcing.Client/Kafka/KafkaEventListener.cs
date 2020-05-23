@@ -87,6 +87,11 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
 
         public void Dispose()
         {
+            this.token.Cancel();
+            this.token.Dispose();
+
+            this.task?.Dispose();
+
             this.consumer.Close();
             this.consumer.Dispose();
 
