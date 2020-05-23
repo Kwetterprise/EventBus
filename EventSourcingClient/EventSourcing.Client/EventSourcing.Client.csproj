@@ -2,14 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Kwetterprise.EventSourcing</RootNamespace>
+    <RootNamespace>Kwetterprise.EventSourcing.Client</RootNamespace>
     <nullable>enable</nullable>
     <PackageId>Kwetterprise.EventSourcing.Client</PackageId>
     <Authors>Tim van den Essen</Authors>
     <Company>Kwetterprise</Company>
     <PackageDescription>A client library for the Kwetterprise service discovery server.</PackageDescription>
     <RepositoryUrl>https://github.com/Kwetterprise/ServiceDiscoveryClient</RepositoryUrl>
-    <RootNamespace>Kwetterprise.EventSourcing.Client</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30105.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourcing.Client", "EventSourcing\EventSourcing.Client.csproj", "{1381FBDA-0E02-4514-9C44-0FD90AB9D3C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourcing.Client", "EventSourcing.Client\EventSourcing.Client.csproj", "{1381FBDA-0E02-4514-9C44-0FD90AB9D3C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
