@@ -1,10 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------------------------
-//  <copyright file="KafkaEventListener.cs" company="Prodrive B.V.">
-//      Copyright (c) Prodrive B.V. All rights reserved.
-//  </copyright>
-// ---------------------------------------------------------------------------------------------------------------------
-
-namespace Kwetterprise.EventSourcing.Client.Kafka
+﻿namespace Kwetterprise.EventSourcing.Client.Kafka
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +17,7 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
         private readonly ILogger<KafkaEventListener> logger;
         private ConsumerConfig config;
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
-        private IConsumer<Ignore, string> consumer;
+        private IConsumer<Ignore, string>? consumer;
 
         private CancellationTokenSource token = new CancellationTokenSource();
         private Task? task;
@@ -97,8 +91,8 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
 
             this.task?.Dispose();
 
-            this.consumer.Close();
-            this.consumer.Dispose();
+            this.consumer?.Close();
+            this.consumer?.Dispose();
 
             this.subject.Dispose();
         }
@@ -109,7 +103,7 @@ namespace Kwetterprise.EventSourcing.Client.Kafka
             try
             {
 
-                consumeResult = this.consumer.Consume(this.token!.Token);
+                consumeResult = this.consumer!.Consume(this.token!.Token);
             }
             catch (ConsumeException e)
             {

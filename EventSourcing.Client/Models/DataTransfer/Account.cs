@@ -17,7 +17,7 @@
             AccountRole accountRole,
             DateTime signedUpOn,
             byte[]? profilePicture,
-            string? bio)
+            string bio)
         {
             this.Id = id;
             this.Username = userName;
@@ -43,6 +43,6 @@
 
         public byte[]? ProfilePicture { get; set; } = null!;
 
-        public string? Bio { get; set; }
+        public string Bio { get; set; } = null!;
     }
 }
