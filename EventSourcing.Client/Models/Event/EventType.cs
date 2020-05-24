@@ -5,6 +5,7 @@
         AccountCreatedEvent,
         AccountDeletedEvent,
         AccountUpdatedEvent,
+        AccountRoleChangedEvent,
 
         TweetCreatedEvent,
         TweetDeletedEvent,

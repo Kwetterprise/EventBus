@@ -9,12 +9,12 @@
             
         }
 
-        public AccountUpdatedEvent(Account newAccount)
+        public AccountUpdatedEvent(Account updatedAccount)
             : base(EventType.AccountUpdatedEvent)
         {
-            this.NewAccount = newAccount;
+            this.updatedAccount = updatedAccount;
         }
 
-        public Account NewAccount { get; set; } = null!;
+        public Account updatedAccount { get; set; } = null!;
     }
 }

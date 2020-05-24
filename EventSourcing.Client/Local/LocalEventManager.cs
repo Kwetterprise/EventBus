@@ -18,7 +18,8 @@ namespace Kwetterprise.EventSourcing.Client.Local
 
         public LocalEventManager()
         {
-            this.tcs = new TaskCompletionSource<bool>(false);
+            this.tcs = new TaskCompletionSource<bool>();
+            this.tcs.SetResult(false);
         }
 
         public Task StartListening(List<Topic> topics)
