@@ -13,8 +13,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
     {
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
 
-        private TaskCompletionSource<bool>? tcs;
-        private List<Topic> topics = new List<Topic>();
+        private TaskCompletionSource<bool> tcs;
 
         public LocalEventManager()
         {
@@ -22,37 +21,30 @@ namespace Kwetterprise.EventSourcing.Client.Local
             this.tcs.SetResult(false);
         }
 
-        public Task StartListening(List<Topic> topics)
+        public void StartListening(List<Topic> topics)
         {
-            if (this.tcs != null && !this.tcs.Task.IsCompleted)
+            if (!this.tcs.Task.IsCompleted)
             {
                 throw new InvalidOperationException("Already listening.");
             }
 
-            this.topics = topics;
-
             this.tcs = new TaskCompletionSource<bool>();
-
-            return this.tcs.Task;
         }
 
-        public void Stop()
+        public Task Stop()
         {
-            if (this.tcs == null || this.tcs!.Task.IsCompleted)
+            if (this.tcs.Task.IsCompleted)
             {
                 throw new InvalidOperationException("Not listening.");
             }
 
             this.tcs.SetResult(true);
-            this.tcs = null;
+            return Task.CompletedTask;
         }
 
         public Task Publish(EventBase message, Topic topic)
         {
-            if (this.tcs != null && this.topics.Contains(topic))
-            {
-                Task.Run(() => this.subject.Publish(message));
-            }
+            Task.Run(() => this.subject.OnNext(message));
 
             return Task.CompletedTask;
         }
@@ -64,7 +56,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
 
         public void Dispose()
         {
-            if (this.tcs != null && !this.tcs!.Task.IsCompleted)
+            if (!this.tcs.Task.IsCompleted)
             {
                 this.Stop();
             }

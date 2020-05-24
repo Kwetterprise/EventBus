@@ -33,7 +33,7 @@
             };
         }
 
-        public Task StartListening(List<Topic> topics)
+        public void StartListening(List<Topic> topics)
         {
             if (this.token != null && !this.token.IsCancellationRequested)
             {
@@ -70,13 +70,17 @@
                     this.subject.OnCompleted();
                 },
                 this.token.Token);
-
-            return this.task;
         }
 
-        public void Stop()
+        public Task Stop()
         {
+            if (this.task == null || this.task.IsCompleted)
+            {
+                throw new InvalidOperationException("Not listening.");
+            }
+
             this.token.Cancel();
+            return this.task!;
         }
 
         public IDisposable Subscribe(IObserver<EventBase> observer)

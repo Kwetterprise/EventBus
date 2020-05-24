@@ -8,8 +8,8 @@
 
     public interface IEventListener : IObservable<EventBase>, IDisposable
     {
-        Task StartListening(List<Topic> topics);
+        void StartListening(List<Topic> topics);
 
-        void Stop();
+        Task Stop();
     }
 }
