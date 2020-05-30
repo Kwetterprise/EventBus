@@ -23,7 +23,7 @@
             this.Id = id;
             this.Username = userName;
             this.EmailAddress = emailAddress;
-            Salt = salt;
+            this.Salt = salt;
             this.HashedPassword = hashedPassword;
             this.AccountRole = accountRole;
             this.SignedUpOn = signedUpOn;
