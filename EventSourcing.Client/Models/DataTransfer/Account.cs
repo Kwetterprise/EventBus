@@ -13,7 +13,8 @@
             Guid id,
             string userName,
             string emailAddress,
-            string passwordHash,
+            string salt,
+            string hashedPassword,
             AccountRole accountRole,
             DateTime signedUpOn,
             byte[]? profilePicture,
@@ -22,7 +23,8 @@
             this.Id = id;
             this.Username = userName;
             this.EmailAddress = emailAddress;
-            this.PasswordHash = passwordHash;
+            Salt = salt;
+            this.HashedPassword = hashedPassword;
             this.AccountRole = accountRole;
             this.SignedUpOn = signedUpOn;
             this.ProfilePicture = profilePicture;
@@ -35,7 +37,9 @@
 
         public string EmailAddress { get; set; } = null!;
 
-        public string PasswordHash { get; set; } = null!;
+        public string Salt { get; set; } = null!;
+
+        public string HashedPassword { get; set; } = null!;
 
         public AccountRole AccountRole { get; set; }
 
