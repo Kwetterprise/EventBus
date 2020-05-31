@@ -4,14 +4,16 @@ using System.Text;
 
 namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
-    class AccountCreated
+    public class AccountCreated : EventBase
     {
         public AccountCreated()
         {
             
         }
 
-        public AccountCreated(Guid id, string username, string emailAddress, string salt, string hashedPassword, DateTime signedUpOn, byte[]? profilePicture, string bio)
+        public AccountCreated(Guid id, string username, string emailAddress, string salt, string hashedPassword,
+            DateTime signedUpOn, byte[]? profilePicture, string bio)
+            : base(EventType.AccountCreated)
         {
             Id = id;
             Username = username;

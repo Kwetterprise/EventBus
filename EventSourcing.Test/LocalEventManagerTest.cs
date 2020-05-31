@@ -27,7 +27,9 @@ namespace EventSourcing.Test
             local.Subscribe(_ => { });
             local.StartListening(new List<Topic> { Topic.Account, });
 
-            await local.Publish(new CreateAccount(new Account()), Topic.Account);
+            await local.Publish(
+                new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty,
+                    DateTime.UtcNow, null, string.Empty), Topic.Account);
 
             manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
         }
@@ -40,7 +42,8 @@ namespace EventSourcing.Test
             local.StartListening(new List<Topic> { Topic.Account, });
             var task = local.Take(1).Timeout(TimeSpan.FromSeconds(10)).ToTask();
 
-            await local.Publish(new CreateAccount(new Account()), Topic.Account);
+            await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,
+                string.Empty, DateTime.UtcNow, null, string.Empty), Topic.Account);
             await local.Stop();
 
             await task;

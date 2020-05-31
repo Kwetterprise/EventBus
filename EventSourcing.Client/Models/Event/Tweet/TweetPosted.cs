@@ -12,6 +12,7 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Tweet
         }
 
         public TweetPosted(Guid author, string content, Guid? parentTweet)
+            : base(EventType.TweetPosted)
         {
             Author = author;
             Content = content;

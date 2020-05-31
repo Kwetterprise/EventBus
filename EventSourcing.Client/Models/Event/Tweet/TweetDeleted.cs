@@ -10,6 +10,7 @@
         }
 
         public TweetDeleted(Guid id)
+            : base(EventType.TweetDeleted)
         {
             this.Id = id;
         }

@@ -10,6 +10,7 @@
         }
 
         public AccountDeleted(Guid accountId)
+            : base(EventType.AccountDeleted)
         {
             this.AccountId = accountId;
         }

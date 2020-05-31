@@ -10,6 +10,7 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         }
 
         public AccountUpdated(Guid id, string newUsername, string newEmailAddress, string newHashedPassword, byte[]? newProfilePicture, string newBio)
+            : base(EventType.AccountUpdated)
         {
             Id = id;
             NewUsername = newUsername;
