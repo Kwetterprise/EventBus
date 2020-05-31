@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
-    using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
-
-    public sealed class CreateAccount : EventBase
+    class AccountCreated
     {
-        public CreateAccount()
+        public AccountCreated()
         {
-
+            
         }
 
-        public CreateAccount(Guid id, string username, string emailAddress, string salt, string hashedPasswords, DateTime signedUpOn, byte[]? profilePicture, string bio)
+        public AccountCreated(Guid id, string username, string emailAddress, string salt, string hashedPassword, DateTime signedUpOn, byte[]? profilePicture, string bio)
         {
             Id = id;
             Username = username;
             EmailAddress = emailAddress;
             Salt = salt;
-            HashedPasswords = hashedPasswords;
+            HashedPassword = hashedPassword;
             SignedUpOn = signedUpOn;
             ProfilePicture = profilePicture;
             Bio = bio;
@@ -30,8 +30,6 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         public string EmailAddress { get; set; } = null!;
 
         public string Salt { get; set; } = null!;
-
-        public string HashedPasswords { get; set; }
 
         public string HashedPassword { get; set; } = null!;
 

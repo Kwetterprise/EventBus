@@ -4,14 +4,14 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Tweet
 {
     using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
 
-    public sealed class PostTweet : EventBase
+    public sealed class TweetPosted : EventBase
     {
-        public PostTweet()
+        public TweetPosted()
         {
 
         }
 
-        public PostTweet(Guid author, string content, Guid? parentTweet)
+        public TweetPosted(Guid author, string content, Guid? parentTweet)
         {
             Author = author;
             Content = content;

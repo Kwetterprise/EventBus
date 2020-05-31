@@ -2,14 +2,14 @@
 {
     using System;
 
-    public sealed class DeleteTweet : EventBase
+    public sealed class TweetDeleted : EventBase
     {
-        public DeleteTweet()
+        public TweetDeleted()
         {
 
         }
 
-        public DeleteTweet(Guid id)
+        public TweetDeleted(Guid id)
         {
             this.Id = id;
         }

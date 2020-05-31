@@ -2,14 +2,14 @@
 
 namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
-    public sealed class UpdateAccount : EventBase
+    public sealed class AccountUpdated : EventBase
     {
-        public UpdateAccount()
+        public AccountUpdated()
         {
             
         }
 
-        public UpdateAccount(Guid id, string newUsername, string newEmailAddress, string newHashedPassword, byte[]? newProfilePicture, string newBio)
+        public AccountUpdated(Guid id, string newUsername, string newEmailAddress, string newHashedPassword, byte[]? newProfilePicture, string newBio)
         {
             Id = id;
             NewUsername = newUsername;
