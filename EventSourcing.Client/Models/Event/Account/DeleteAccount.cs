@@ -2,15 +2,14 @@
 {
     using System;
 
-    public sealed class AccountDeletedEvent : EventBase
+    public sealed class DeleteAccount : EventBase
     {
-        public AccountDeletedEvent()
+        public DeleteAccount()
         {
 
         }
 
-        public AccountDeletedEvent(Guid accountId)
-            : base(EventType.AccountDeletedEvent)
+        public DeleteAccount(Guid accountId)
         {
             this.AccountId = accountId;
         }

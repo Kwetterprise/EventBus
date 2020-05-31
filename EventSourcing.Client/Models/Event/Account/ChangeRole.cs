@@ -6,15 +6,14 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
     using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
 
-    public class AccountRoleChangedEvent : EventBase
+    public class ChangeRole
     {
-        public AccountRoleChangedEvent()
+        public ChangeRole()
         {
             
         }
 
-        public AccountRoleChangedEvent(Guid target, Guid actor, AccountRole newRole)
-            : base(EventType.AccountRoleChangedEvent)
+        public ChangeRole(Guid target, Guid actor, AccountRole newRole)
         {
             this.Target = target;
             this.Actor = actor;
