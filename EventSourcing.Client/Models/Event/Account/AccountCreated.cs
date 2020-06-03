@@ -11,7 +11,7 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
             
         }
 
-        public AccountCreated(Guid id, string username, string emailAddress, string salt, string hashedPassword,
+        public AccountCreated(Guid id, string username, string emailAddress, string hashedPassword,
             DateTime signedUpOn)
             : base(EventType.AccountCreated)
         {
