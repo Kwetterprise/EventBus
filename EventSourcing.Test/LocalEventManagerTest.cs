@@ -26,7 +26,7 @@ namespace EventSourcing.Test
             local.StartListening();
 
             await local.Publish(
-                new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty,
+                new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,
                     DateTime.UtcNow), Topic.Account);
 
             manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
@@ -40,7 +40,7 @@ namespace EventSourcing.Test
             local.StartListening();
             var task = local.Take(1).Timeout(TimeSpan.FromSeconds(10)).ToTask();
 
-            await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,
+            await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty,
                 string.Empty, DateTime.UtcNow), Topic.Account);
             await local.Stop();
 
