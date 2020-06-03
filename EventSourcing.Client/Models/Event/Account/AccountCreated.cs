@@ -12,7 +12,7 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         }
 
         public AccountCreated(Guid id, string username, string emailAddress, string salt, string hashedPassword,
-            DateTime signedUpOn, byte[]? profilePicture, string bio)
+            DateTime signedUpOn)
             : base(EventType.AccountCreated)
         {
             Id = id;
@@ -21,8 +21,6 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
             Salt = salt;
             HashedPassword = hashedPassword;
             SignedUpOn = signedUpOn;
-            ProfilePicture = profilePicture;
-            Bio = bio;
         }
 
         public Guid Id { get; set; }
@@ -36,9 +34,5 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         public string HashedPassword { get; set; } = null!;
 
         public DateTime SignedUpOn { get; set; }
-
-        public byte[]? ProfilePicture { get; set; } = null!;
-
-        public string Bio { get; set; } = null!;
     }
 }

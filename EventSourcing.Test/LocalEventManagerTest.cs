@@ -29,7 +29,7 @@ namespace EventSourcing.Test
 
             await local.Publish(
                 new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty,
-                    DateTime.UtcNow, null, string.Empty), Topic.Account);
+                    DateTime.UtcNow), Topic.Account);
 
             manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
         }
@@ -43,7 +43,7 @@ namespace EventSourcing.Test
             var task = local.Take(1).Timeout(TimeSpan.FromSeconds(10)).ToTask();
 
             await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,
-                string.Empty, DateTime.UtcNow, null, string.Empty), Topic.Account);
+                string.Empty, DateTime.UtcNow), Topic.Account);
             await local.Stop();
 
             await task;
