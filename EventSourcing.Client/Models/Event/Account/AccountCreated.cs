@@ -18,7 +18,6 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
             Id = id;
             Username = username;
             EmailAddress = emailAddress;
-            Salt = salt;
             HashedPassword = hashedPassword;
             SignedUpOn = signedUpOn;
         }
@@ -28,8 +27,6 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         public string Username { get; set; } = null!;
 
         public string EmailAddress { get; set; } = null!;
-
-        public string Salt { get; set; } = null!;
 
         public string HashedPassword { get; set; } = null!;
 
