@@ -21,7 +21,7 @@ namespace Kwetterprise.EventSourcing.Client.Local
             this.tcs.SetResult(false);
         }
 
-        public void StartListening(List<Topic> topics)
+        public void StartListening()
         {
             if (!this.tcs.Task.IsCompleted)
             {

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Confluent.Kafka;
-    using Kwetterprise.EventSourcing.Client.Models.Event;
+    using Models.Event;
 
     public class KafkaConfiguration
     {

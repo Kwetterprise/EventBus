@@ -2,13 +2,11 @@
 namespace EventSourcing.Test
 {
     using System;
-    using System.Collections.Generic;
     using System.Reactive.Linq;
     using System.Reactive.Threading.Tasks;
     using System.Threading;
     using System.Threading.Tasks;
     using Kwetterprise.EventSourcing.Client.Local;
-    using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
     using Kwetterprise.EventSourcing.Client.Models.Event;
     using Kwetterprise.EventSourcing.Client.Models.Event.Account;
     using Xunit;
@@ -25,7 +23,7 @@ namespace EventSourcing.Test
             local.Subscribe(_ => { });
             local.Subscribe(_ => manualResetEvent.Set());
             local.Subscribe(_ => { });
-            local.StartListening(new List<Topic> { Topic.Account, });
+            local.StartListening();
 
             await local.Publish(
                 new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, string.Empty,
@@ -39,7 +37,7 @@ namespace EventSourcing.Test
         {
             var local = new LocalEventManager();
 
-            local.StartListening(new List<Topic> { Topic.Account, });
+            local.StartListening();
             var task = local.Take(1).Timeout(TimeSpan.FromSeconds(10)).ToTask();
 
             await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,

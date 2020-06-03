@@ -1,30 +1,31 @@
 ﻿namespace Kwetterprise.EventSourcing.Client.Kafka
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Subjects;
     using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
     using Confluent.Kafka;
-    using Kwetterprise.EventSourcing.Client.Interface;
-    using Kwetterprise.EventSourcing.Client.Models.Event;
+    using Interface;
+    using Models.Event;
     using Microsoft.Extensions.Logging;
 
     public sealed class KafkaEventListener : IEventListener
     {
         private readonly ILogger<KafkaEventListener> logger;
-        private ConsumerConfig config;
+        private readonly KafkaConsumerConfiguration configuration;
+        private readonly ConsumerConfig config;
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
-        private IConsumer<Ignore, string>? consumer;
 
+        private IConsumer<Ignore, string>? consumer;
         private CancellationTokenSource token = new CancellationTokenSource();
         private Task? task;
 
         public KafkaEventListener(ILogger<KafkaEventListener> logger, KafkaConsumerConfiguration configuration)
         {
             this.logger = logger;
+            this.configuration = configuration;
             this.config = new ConsumerConfig
             {
                 BootstrapServers = configuration.Servers,
@@ -33,7 +34,7 @@
             };
         }
 
-        public void StartListening(List<Topic> topics)
+        public void StartListening()
         {
             if (this.token != null && !this.token.IsCancellationRequested)
             {
@@ -43,7 +44,7 @@
             this.token = new CancellationTokenSource();
 
             this.consumer = new ConsumerBuilder<Ignore, string>(this.config).Build();
-            this.consumer.Subscribe(topics.Select(x => x.ToString()));
+            this.consumer.Subscribe(this.configuration.Topics.Select(x => x.ToString()));
 
             this.task = Task.Run(
                 () =>
