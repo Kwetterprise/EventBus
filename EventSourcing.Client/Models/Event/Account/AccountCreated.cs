@@ -15,11 +15,11 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
             DateTime signedUpOn)
             : base(EventType.AccountCreated)
         {
-            Id = id;
-            Username = username;
-            EmailAddress = emailAddress;
-            HashedPassword = hashedPassword;
-            SignedUpOn = signedUpOn;
+            this.Id = id;
+            this.Username = username;
+            this.EmailAddress = emailAddress;
+            this.HashedPassword = hashedPassword;
+            this.SignedUpOn = signedUpOn;
         }
 
         public Guid Id { get; set; }
