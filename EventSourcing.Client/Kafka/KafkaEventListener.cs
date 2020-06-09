@@ -19,7 +19,7 @@
         private readonly Subject<EventBase> subject = new Subject<EventBase>();
 
         private IConsumer<Ignore, string>? consumer;
-        private CancellationTokenSource token = new CancellationTokenSource();
+        private CancellationTokenSource token = new CancellationTokenSource(TimeSpan.Zero);
         private Task? task;
 
         public KafkaEventListener(ILogger<KafkaEventListener> logger, KafkaConsumerConfiguration configuration)

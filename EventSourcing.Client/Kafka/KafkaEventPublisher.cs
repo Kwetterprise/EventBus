@@ -11,13 +11,11 @@
     public sealed class KafkaEventPublisher : IEventPublisher
     {
         private readonly ILogger<KafkaEventPublisher> logger;
-        private readonly KafkaConfiguration configuration;
         private readonly IProducer<Null, string> producerBuilder;
 
         public KafkaEventPublisher(ILogger<KafkaEventPublisher> logger, KafkaConfiguration configuration)
         {
             this.logger = logger;
-            this.configuration = configuration;
             var config = new ProducerConfig
             {
                 BootstrapServers = configuration.Servers,
