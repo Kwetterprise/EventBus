@@ -46,5 +46,22 @@ namespace EventSourcing.Test
 
             await task;
         }
+
+        [Fact]
+        public async Task NotBlockingTask()
+        {
+            var local = new LocalEventManager();
+
+            var keepRunning = true;
+
+            local.Subscribe(_ => { while (keepRunning) ; });
+
+            local.StartListening();
+
+            await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty,
+                string.Empty, DateTime.UtcNow), Topic.Account);
+
+            keepRunning = false;
+        }
     }
 }
