@@ -42,7 +42,8 @@ namespace Kwetterprise.EventSourcing.Client.Local
             return Task.CompletedTask;
         }
 
-        public Task Publish(EventBase message, Topic topic)
+        public Task Publish<T>(T message, Topic topic)
+            where T : EventBase
         {
             Task.Run(() => this.subject.OnNext(message));
 

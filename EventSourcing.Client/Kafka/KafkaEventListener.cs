@@ -1,8 +1,11 @@
 ﻿namespace Kwetterprise.EventSourcing.Client.Kafka
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Reactive.Linq;
     using System.Reactive.Subjects;
+    using System.Runtime.CompilerServices;
     using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,10 +18,9 @@
     {
         private readonly ILogger<KafkaEventListener> logger;
         private readonly KafkaConsumerConfiguration configuration;
-        private readonly ConsumerConfig config;
-        private readonly Subject<EventBase> subject = new Subject<EventBase>();
+        private readonly ReplaySubject<EventBase> subject = new ReplaySubject<EventBase>();
+        private readonly IConsumer<Ignore, string> consumer;
 
-        private IConsumer<Ignore, string>? consumer;
         private CancellationTokenSource token = new CancellationTokenSource(TimeSpan.Zero);
         private Task? task;
 
@@ -26,12 +28,14 @@
         {
             this.logger = logger;
             this.configuration = configuration;
-            this.config = new ConsumerConfig
+            var config = new ConsumerConfig
             {
                 BootstrapServers = configuration.Servers,
                 GroupId = configuration.GroupId,
                 AutoOffsetReset = configuration.Offset,
             };
+
+            this.consumer = new ConsumerBuilder<Ignore, string>(config).Build();
         }
 
         public void StartListening()
@@ -43,34 +47,33 @@
 
             this.token = new CancellationTokenSource();
 
-            this.consumer = new ConsumerBuilder<Ignore, string>(this.config).Build();
-            this.consumer.Subscribe(this.configuration.Topics.Select(x => x.ToString()));
-
             this.task = Task.Run(
                 () =>
                 {
-                    while (!this.token.Token.IsCancellationRequested)
+                    foreach (var eventBase in KafkaEventListener.DoWork(this.logger, this.consumer, this.token.Token))
                     {
-                        try
-                        {
-                            this.DoWork();
-                        }
-                        catch (TaskCanceledException)
-                        {
-                            // ignore
-                        }
-                        catch (Exception e)
-                        {
-                            this.subject.OnError(e);
-                            return;
-                        }
+                        this.subject.OnNext(eventBase);
                     }
-
-                    this.consumer.Close();
-
-                    this.subject.OnCompleted();
                 },
-                this.token.Token);
+                this.token.Token)
+                .ContinueWith(
+                    prevTask =>
+                    {
+                        this.consumer.Unsubscribe();
+
+                        if (prevTask.IsFaulted)
+                        {
+                            this.subject.OnError(prevTask.Exception);
+                        }
+                        else
+                        {
+                            this.subject.OnCompleted();
+                        }
+
+                        this.task = null;
+                    });
+
+            this.consumer.Subscribe(this.configuration.Topics.Select(x => x.Value));
         }
 
         public Task Stop()
@@ -81,7 +84,7 @@
             }
 
             this.token.Cancel();
-            return this.task!;
+            return this.task;
         }
 
         public IDisposable Subscribe(IObserver<EventBase> observer)
@@ -94,46 +97,63 @@
             this.token.Cancel();
             this.token.Dispose();
 
-            this.task?.Dispose();
+            this.task?.Wait(1000);
 
-            this.consumer?.Close();
-            this.consumer?.Dispose();
+            this.consumer.Close();
+            this.consumer.Dispose();
 
             this.subject.Dispose();
         }
 
-        private void DoWork()
+        private static IEnumerable<EventBase> DoWork(
+            ILogger logger,
+            IConsumer<Ignore, string> consumer,
+            CancellationToken token)
         {
-            ConsumeResult<Ignore, string> consumeResult;
-            try
+            while (!token.IsCancellationRequested)
             {
+                ConsumeResult<Ignore, string> consumeResult;
+                try
+                {
+                    consumeResult = consumer.Consume(token);
+                }
+                catch (OperationCanceledException)
+                {
+                    // ignore
+                    yield break;
+                }
+                catch (ConsumeException e)
+                {
+                    logger.LogError(e, "Unable to consume event(s).");
+                    throw;
+                }
 
-                consumeResult = this.consumer!.Consume(this.token!.Token);
-            }
-            catch (ConsumeException e)
-            {
-                this.logger.LogError(e, "Unable to consume event(s).");
-                throw;
-            }
+                EventBase @event;
 
-            EventBase deserializedEvent;
-            try
-            {
-                deserializedEvent =
-                    JsonSerializer.Deserialize<EventBase>(
-                        consumeResult.Message.Value,
-                        new JsonSerializerOptions
-                        {
-                            Converters = { new KwetterpriseEventConverter(), },
-                        });
-            }
-            catch (JsonException)
-            {
-                this.logger.LogError($"Failed to deserialize event: \"{consumeResult.Message.Value}\".");
-                throw;
-            }
+                try
+                {
+                    @event = KafkaEventListener.TranslateJson(consumeResult.Message.Value);
+                }
+                catch (JsonException)
+                {
+                    logger.LogError($"Failed to deserialize event: \"{consumeResult.Message.Value}\".");
+                    throw;
+                }
 
-            this.subject.OnNext(deserializedEvent);
+                yield return @event;
+            }
+        }
+
+        private static EventBase TranslateJson(string json)
+        {
+            var jsonDocument = JsonDocument.Parse(json);
+            var type = EventBase.EventTypeEnumToType(
+                (EventType)jsonDocument.RootElement
+                    .EnumerateObject()
+                    .First(x => x.NameEquals(nameof(EventBase.Type)))
+                    .Value.GetInt32());
+
+            return (EventBase)JsonSerializer.Deserialize(json, type);
         }
     }
 }

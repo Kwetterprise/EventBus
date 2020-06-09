@@ -25,13 +25,14 @@
             this.producerBuilder = new ProducerBuilder<Null, string>(config).Build();
         }
 
-        public async Task Publish(EventBase @event, Topic topic)
+        public async Task Publish<T>(T @event, Topic topic)
+            where T : EventBase
         {
             try
             {
                 var message = JsonSerializer.Serialize(@event);
                 var dr = await this.producerBuilder.ProduceAsync(
-                    topic.ToString(),
+                    topic.Value,
                     new Message<Null, string> { Value = message });
                 this.logger.LogDebug($"Delivered '{dr.Value}' to '{dr.TopicPartitionOffset}'");
             }

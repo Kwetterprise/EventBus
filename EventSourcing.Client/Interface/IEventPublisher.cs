@@ -6,6 +6,6 @@
 
     public interface IEventPublisher : IDisposable
     {
-        Task Publish(EventBase message, Topic topic);
+        Task Publish<T>(T message, Topic topic) where T : EventBase;
     }
 }
