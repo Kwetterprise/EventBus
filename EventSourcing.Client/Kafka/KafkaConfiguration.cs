@@ -20,7 +20,7 @@
             string servers,
             IEnumerable<Topic> topics,
             string groupId,
-            AutoOffsetReset offset) : base(servers)
+            AutoOffsetReset? offset) : base(servers)
         {
             this.Topics = topics;
             this.GroupId = groupId;
@@ -31,7 +31,7 @@
 
         public string GroupId { get; }
 
-        public AutoOffsetReset Offset { get; }
+        public AutoOffsetReset? Offset { get; }
     }
 
 }

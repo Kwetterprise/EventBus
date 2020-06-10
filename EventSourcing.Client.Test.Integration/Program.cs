@@ -14,9 +14,10 @@
     {
         private static async Task Main()
         {
+            var guid = Guid.NewGuid();
             var topic = new Topic("Test");
 
-            var kafkaConsumerConfiguration = new KafkaConsumerConfiguration("localhost:9092", new List<Topic> { topic }, "someGroup", AutoOffsetReset.Latest);
+            var kafkaConsumerConfiguration = new KafkaConsumerConfiguration("localhost:9092", new List<Topic> { topic }, $"Test", AutoOffsetReset.Earliest);
 
             using var publisher = new KafkaEventPublisher(ConsoleLogger<KafkaEventPublisher>.Create(), kafkaConsumerConfiguration);
             using var listener = new KafkaEventListener(ConsoleLogger<KafkaEventListener>.Create(), kafkaConsumerConfiguration);

@@ -32,6 +32,7 @@
             {
                 BootstrapServers = configuration.Servers,
                 GroupId = configuration.GroupId,
+                EnableAutoOffsetStore = configuration.Offset.HasValue,
                 AutoOffsetReset = configuration.Offset,
             };
 
