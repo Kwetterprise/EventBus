@@ -1,4 +1,6 @@
 
+using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
+
 namespace EventSourcing.Test
 {
     using System;
@@ -27,7 +29,7 @@ namespace EventSourcing.Test
 
             await local.Publish(
                 new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty, string.Empty,
-                    DateTime.UtcNow), Topic.Account);
+                    DateTime.UtcNow, AccountRole.User, string.Empty, null), Topic.Account);
 
             manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
         }
@@ -41,7 +43,7 @@ namespace EventSourcing.Test
             var task = local.Take(1).Timeout(TimeSpan.FromSeconds(10)).ToTask();
 
             await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty,
-                string.Empty, DateTime.UtcNow), Topic.Account);
+                string.Empty, DateTime.UtcNow, AccountRole.User, string.Empty, null), Topic.Account);
             await local.Stop();
 
             await task;
@@ -59,7 +61,7 @@ namespace EventSourcing.Test
             local.StartListening();
 
             await local.Publish(new AccountCreated(Guid.NewGuid(), string.Empty, string.Empty,
-                string.Empty, DateTime.UtcNow), Topic.Account);
+                string.Empty, DateTime.UtcNow, AccountRole.User, string.Empty, null), Topic.Account);
 
             keepRunning = false;
         }

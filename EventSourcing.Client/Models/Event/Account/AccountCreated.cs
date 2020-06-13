@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Kwetterprise.EventSourcing.Client.Models.DataTransfer;
 
 namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
 {
@@ -8,11 +9,9 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
     {
         public AccountCreated()
         {
-            
         }
 
-        public AccountCreated(Guid id, string username, string emailAddress, string hashedPassword,
-            DateTime signedUpOn)
+        public AccountCreated(Guid id, string username, string emailAddress, string hashedPassword, DateTime signedUpOn, AccountRole role, string bio, byte[]? profilePicture)
             : base(EventType.AccountCreated)
         {
             this.Id = id;
@@ -20,6 +19,9 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
             this.EmailAddress = emailAddress;
             this.HashedPassword = hashedPassword;
             this.SignedUpOn = signedUpOn;
+            Role = role;
+            Bio = bio;
+            ProfilePicture = profilePicture;
         }
 
         public Guid Id { get; set; }
@@ -27,6 +29,12 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Account
         public string Username { get; set; } = null!;
 
         public string EmailAddress { get; set; } = null!;
+
+        public AccountRole Role { get; set; }
+
+        public string Bio { get; set; } = null!;
+
+        public byte[]? ProfilePicture { get; set; }
 
         public string HashedPassword { get; set; } = null!;
 
