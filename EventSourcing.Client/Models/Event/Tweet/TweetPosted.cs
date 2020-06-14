@@ -4,7 +4,7 @@ namespace Kwetterprise.EventSourcing.Client.Models.Event.Tweet
 {
     public sealed class TweetPosted : EventBase
     {
-        public TweetPosted(DateTime postedOn)
+        public TweetPosted()
         {
         }
 
