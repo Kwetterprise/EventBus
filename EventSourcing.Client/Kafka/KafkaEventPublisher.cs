@@ -20,6 +20,7 @@
             {
                 BootstrapServers = configuration.Servers,
                 ClientId = Dns.GetHostName(),
+                SocketTimeoutMs = configuration.SocketTimeoutMs,
             };
 
             this.producerBuilder = new ProducerBuilder<Null, string>(config).Build();

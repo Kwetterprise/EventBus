@@ -6,12 +6,15 @@
 
     public class KafkaConfiguration
     {
-        public KafkaConfiguration(string servers)
+        public KafkaConfiguration(string servers, int socketTimeoutMs)
         {
             this.Servers = servers;
+            this.SocketTimeoutMs = socketTimeoutMs;
         }
 
         public string Servers { get; }
+
+        public int SocketTimeoutMs { get; }
     }
 
     public sealed class KafkaConsumerConfiguration : KafkaConfiguration
@@ -20,7 +23,8 @@
             string servers,
             IEnumerable<Topic> topics,
             string groupId,
-            AutoOffsetReset? offset) : base(servers)
+            AutoOffsetReset? offset,
+            int socketTimeoutMs) : base(servers, socketTimeoutMs)
         {
             this.Topics = topics;
             this.GroupId = groupId;
